@@ -10,10 +10,10 @@ class MoviesController < ApplicationController
   end
 
   def destroy
-     movie = Movie.find(params[:id])
-     movie.destroy
      movies = UsersToMovie.where({movie_id: params[:id]}).first
      movies.destroy
+     movie = Movie.find(params[:id])
+     movie.destroy
   end
 
   def create
