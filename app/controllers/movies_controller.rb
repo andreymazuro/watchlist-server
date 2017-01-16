@@ -2,13 +2,13 @@ class MoviesController < ApplicationController
 
   def movie_delete
     movie_id = params[:id]
-    user_id = redis.get(params[:token])
+    user_id = $redis.get(params[:token])
     user = User.find(user_id)
     user.movies.where({id:movie_id}).first.destroy
   end
 
   def create
-    id = redis.get(params[:user_token])
+    id = $redis.get(params[:user_token])
     user = User.find(id)
     movie = user.movies
     movie.create(
