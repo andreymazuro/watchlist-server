@@ -1,10 +1,10 @@
 class MoviesController < ApplicationController
 
-  def destroy
-     movies = UsersToMovie.where({movie_id: params[:id]}).first
-     movies.destroy
-     movie = Movie.find(params[:id])
-     movie.destroy
+  def movie_delete
+    movie_id = params[:id]
+    user_id = $redis.get(params[:token])
+    user = User.find(user_id)
+    user.movies.where({id:movie_id}).first.destroy
   end
 
   def create

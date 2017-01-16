@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+
   def auth
     user = User.where({name: params[:name], password: params[:password]}).first
     if user.present?
