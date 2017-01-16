@@ -4,7 +4,7 @@ class UsersController < ApplicationController
     user = User.where({name: params[:name], password: params[:password]}).first
     if user.present?
       token = SecureRandom.hex(10)
-      $redis.set(token, user.id)
+      redis.set(token, user.id)
       render json: {token: token}
     else
       render nothing: true, status: 403
@@ -12,19 +12,19 @@ class UsersController < ApplicationController
   end
 
   def user_movies
-    id = $redis.get(params[:token])
+    id = redis.get(params[:token])
     user = User.find(id)
     render json: user.movies
   end
 
   def user_info
-    id = $redis.get(params[:token])
+    id = redis.get(params[:token])
     user = User.find(id)
     render json: user
   end
 
   def user_delete
-    id = $redis.get(params[:token])
+    id = redis.get(params[:token])
      user = User.find(id)
      user.destroy
   end
