@@ -11,6 +11,20 @@ class UsersController < ApplicationController
     end
   end
 
+  def update_password
+    id = $redis.get(params[:token])
+    current_pass = params[:currentPassword]
+    user = User.find(id)
+    user_pass = user.password
+    if user_pass == current_pass
+      user.update_attribute(:password, params[:newPassword])
+      render json: {answer: "Successfuly changed"}
+    else
+      render json: {answer: "Wrong current password"}
+    end
+
+  end
+
   def user_movies
     id = $redis.get(params[:token])
     user = User.find(id)
@@ -45,7 +59,7 @@ class UsersController < ApplicationController
       email:params[:email],
       password:params[:password]
     )
-      message = "Successfuly registered"
+      message = "Successfuly registered. Log in to continue"
       render json: {error: message}
     end
   end
