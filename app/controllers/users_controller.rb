@@ -33,8 +33,12 @@ class UsersController < ApplicationController
 
   def user_info
     id = $redis.get(params[:token])
-    user = User.find(id)
-    render json: user
+    user = User.where({id: id}).first
+    if user.present?
+     render json: user
+   else
+     render nothing: true, status: 403
+   end
   end
 
   def user_delete
@@ -47,18 +51,25 @@ class UsersController < ApplicationController
   def create
     user_name = User.where({name: params[:name]}).first
     user_email = User.where({email: params[:email]}).first
+
     if user_name.present?
       error = "Name is already taken, sorry"
       render json: {error: error}
     elsif user_email.present?
       error = "E-mail is already taken, sorry"
       render json: {error: error}
-    else
-    user = User.create(
+    end
+
+    valid = User.create(
       name:params[:name],
       email:params[:email],
       password:params[:password]
-    )
+    ).valid?
+
+    if !valid
+      error = "Wrong e-mail format"
+      render json: {error: error}
+    else
       message = "Successfuly registered. Log in to continue"
       render json: {error: message}
     end
