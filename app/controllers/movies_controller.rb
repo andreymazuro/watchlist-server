@@ -11,14 +11,14 @@ class MoviesController < ApplicationController
     id = $redis.get(params[:user_token])
     user = User.find(id)
     movie = user.movies
-    if !movie.any?{|a| a.movie_id == params[:movie_id] || a.movie_id == params[:movie_id].to_i }
+    if movie.none?{|a| a.movie_id == params[:movie_id] || a.movie_id == params[:movie_id].to_i }
       movie.create(
         name:params[:name],
         poster_path:params[:poster_path],
         vote_average:params[:vote_average],
         first_air_date:params[:first_air_date],
         movie_id:params[:movie_id]
-        )
+      )
     end
   end
 
