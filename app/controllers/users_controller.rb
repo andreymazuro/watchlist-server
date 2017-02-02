@@ -7,7 +7,7 @@ class UsersController < ApplicationController
       $redis.set(token, user.id)
       render json: {token: token}
     else
-      render nothing: true, status: 403
+      render :nothing , status: 403
     end
   end
 
