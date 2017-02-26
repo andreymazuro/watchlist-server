@@ -1,14 +1,7 @@
 class UsersController < ApplicationController
 
   def auth
-    user = User.where({name: params[:name], password: params[:password]}).first
-    if user.present?
-      token = SecureRandom.hex(10)
-      $redis.set(token, user.id)
-      render json: {token: token}
-    else
-      render :nothing , status: 403
-    end
+    
   end
 
   def update_password
