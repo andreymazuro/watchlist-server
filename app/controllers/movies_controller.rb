@@ -8,7 +8,9 @@ class MoviesController < ApplicationController
   end
 
   def create
-   
+    id = $redis.get(params[:user_token])
+    user = User.find(id)
+    movie = user.movies
     if movie.none?{|a| a.movie_id == params[:movie_id] || a.movie_id == params[:movie_id].to_i }
       movie.create(
         name:params[:name],
