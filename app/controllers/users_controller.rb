@@ -22,7 +22,6 @@ class UsersController < ApplicationController
     else
       render json: {answer: "Wrong current password"}
     end
-
   end
 
   def user_movies
@@ -36,15 +35,15 @@ class UsersController < ApplicationController
     user = User.where({id: id}).first
     if user.present?
      render json: user
-   else
+    else
      render nothing: true, status: 403
-   end
+    end
   end
 
   def user_delete
     id = $redis.get(params[:token])
-     user = User.find(id)
-     user.destroy
+    user = User.find(id)
+    user.destroy
   end
 
 

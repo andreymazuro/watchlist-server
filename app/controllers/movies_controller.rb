@@ -18,7 +18,7 @@ class MoviesController < ApplicationController
         vote_average:params[:vote_average],
         first_air_date:params[:first_air_date],
         movie_id:params[:movie_id]
-        )
+      )
     end
   end
 
