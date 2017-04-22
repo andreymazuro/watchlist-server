@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   def auth
-    user = User.where({name: params[:name], password: params[:password]}).first
+    user = User.where({name: params[:name]}).first
     if user.present?
       token = SecureRandom.hex(10)
       $redis.set(token, user.id)
